@@ -1,0 +1,3424 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+  <base target="_top">
+
+  <meta charset="UTF-8">
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  >
+
+  <title>
+    TTB Label Compliance Assistant
+  </title>
+
+
+  <style>
+
+    :root {
+
+      --navy: #12355b;
+      --navy-dark: #0b2742;
+      --gold: #d6a84f;
+      --blue: #145da0;
+
+      --light-blue: #eaf3fb;
+
+      --gray: #f3f5f7;
+
+      --border: #c9d1d9;
+
+      --text: #17202a;
+
+      --muted: #5b6570;
+
+      --success: #176b3a;
+
+      --warning: #9a6700;
+
+      --danger: #a61b1b;
+
+      --white: #ffffff;
+
+      --focus: #ffbf47;
+    }
+
+
+    * {
+      box-sizing: border-box;
+    }
+
+
+    body {
+
+      margin: 0;
+
+      background:
+        var(--gray);
+
+      color:
+        var(--text);
+
+      font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+      line-height:
+        1.5;
+
+      font-size:
+        16px;
+    }
+
+
+    body.large-text {
+      font-size: 19px;
+    }
+
+
+    body.high-contrast {
+
+      --navy: #000000;
+      --navy-dark: #000000;
+      --gold: #ffff00;
+      --blue: #0000ee;
+      --light-blue: #ffffff;
+      --gray: #ffffff;
+      --border: #000000;
+      --text: #000000;
+      --muted: #000000;
+      --success: #000000;
+      --warning: #000000;
+      --danger: #000000;
+      --white: #ffffff;
+      --focus: #ff00ff;
+    }
+
+
+    button,
+    input,
+    select,
+    textarea {
+
+      font:
+        inherit;
+    }
+
+
+    button,
+    input,
+    select,
+    textarea {
+
+      border-radius:
+        5px;
+    }
+
+
+    button:focus,
+    input:focus,
+    select:focus,
+    textarea:focus,
+    a:focus {
+
+      outline:
+        4px solid var(--focus);
+
+      outline-offset:
+        2px;
+    }
+
+
+    .skip-link {
+
+      position:
+        absolute;
+
+      left:
+        -9999px;
+
+      top:
+        10px;
+
+      background:
+        white;
+
+      color:
+        black;
+
+      padding:
+        10px 15px;
+
+      border:
+        2px solid black;
+    }
+
+
+    .skip-link:focus {
+
+      left:
+        10px;
+    }
+
+
+    header {
+
+      background:
+        linear-gradient(
+          135deg,
+          var(--navy-dark),
+          var(--navy)
+        );
+
+      color:
+        white;
+
+      border-bottom:
+        5px solid var(--gold);
+    }
+
+
+    .header-inner {
+
+      max-width:
+        1400px;
+
+      margin:
+        auto;
+
+      padding:
+        18px 25px;
+
+      display:
+        flex;
+
+      align-items:
+        center;
+
+      gap:
+        20px;
+    }
+
+
+    .logo-area {
+
+      min-width:
+        120px;
+
+      text-align:
+        center;
+    }
+
+
+    .ttb-logo {
+
+      width:
+        88px;
+
+      height:
+        88px;
+
+      object-fit:
+        contain;
+
+      background:
+        white;
+
+      border-radius:
+        50%;
+
+      padding:
+        4px;
+
+      display:
+        block;
+
+      margin:
+        auto;
+    }
+
+
+    .logo-fallback {
+
+      display:
+        none;
+
+      width:
+        88px;
+
+      height:
+        88px;
+
+      margin:
+        auto;
+
+      border-radius:
+        50%;
+
+      background:
+        white;
+
+      color:
+        var(--navy);
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      text-align:
+        center;
+
+      font-size:
+        14px;
+
+      font-weight:
+        bold;
+
+      border:
+        4px solid var(--gold);
+    }
+
+
+    .agency {
+
+      flex:
+        1;
+    }
+
+
+    .agency-line {
+
+      font-size:
+        14px;
+
+      letter-spacing:
+        .04em;
+
+      text-transform:
+        uppercase;
+
+      font-weight:
+        bold;
+    }
+
+
+    .agency h1 {
+
+      margin:
+        4px 0;
+
+      font-size:
+        29px;
+
+      line-height:
+        1.15;
+    }
+
+
+    .prototype-label {
+
+      display:
+        inline-block;
+
+      margin-top:
+        7px;
+
+      padding:
+        5px 9px;
+
+      background:
+        #fff3cd;
+
+      color:
+        #4d3a00;
+
+      border-radius:
+        4px;
+
+      font-weight:
+        bold;
+
+      font-size:
+        12px;
+
+      letter-spacing:
+        .04em;
+    }
+
+
+    .header-controls {
+
+      display:
+        flex;
+
+      flex-wrap:
+        wrap;
+
+      gap:
+        8px;
+
+      justify-content:
+        flex-end;
+    }
+
+
+    .header-controls button {
+
+      background:
+        white;
+
+      color:
+        var(--navy);
+
+      border:
+        1px solid white;
+
+      padding:
+        8px 11px;
+
+      cursor:
+        pointer;
+
+      font-weight:
+        bold;
+    }
+
+
+    .container {
+
+      max-width:
+        1400px;
+
+      margin:
+        auto;
+
+      padding:
+        24px;
+    }
+
+
+    .intro {
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-left:
+        5px solid var(--blue);
+
+      border-radius:
+        7px;
+
+      padding:
+        18px;
+
+      margin-bottom:
+        20px;
+    }
+
+
+    .intro h2 {
+
+      margin-top:
+        0;
+
+      margin-bottom:
+        6px;
+    }
+
+
+    .dashboard {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          4,
+          minmax(0, 1fr)
+        );
+
+      gap:
+        14px;
+
+      margin-bottom:
+        20px;
+    }
+
+
+    .stat-card {
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        7px;
+
+      padding:
+        16px;
+    }
+
+
+    .stat-label {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+
+      font-weight:
+        bold;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .stat-value {
+
+      font-size:
+        30px;
+
+      font-weight:
+        bold;
+
+      margin-top:
+        5px;
+
+      color:
+        var(--navy);
+    }
+
+
+    .grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        minmax(0, 2fr)
+        minmax(320px, 1fr);
+
+      gap:
+        20px;
+
+      align-items:
+        start;
+    }
+
+
+    .card {
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        7px;
+
+      margin-bottom:
+        20px;
+
+      overflow:
+        hidden;
+    }
+
+
+    .card-header {
+
+      background:
+        var(--navy);
+
+      color:
+        white;
+
+      padding:
+        13px 17px;
+
+      border-bottom:
+        4px solid var(--gold);
+    }
+
+
+    .card-header h2,
+    .card-header h3 {
+
+      margin:
+        0;
+
+      font-size:
+        19px;
+    }
+
+
+    .card-body {
+
+      padding:
+        18px;
+    }
+
+
+    .section-number {
+
+      display:
+        inline-flex;
+
+      width:
+        28px;
+
+      height:
+        28px;
+
+      align-items:
+        center;
+
+      justify-content:
+        center;
+
+      background:
+        var(--gold);
+
+      color:
+        #111;
+
+      border-radius:
+        50%;
+
+      margin-right:
+        8px;
+
+      font-weight:
+        bold;
+    }
+
+
+    .form-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
+      gap:
+        16px;
+    }
+
+
+    .field {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        6px;
+    }
+
+
+    .field.full {
+
+      grid-column:
+        1 / -1;
+    }
+
+
+    label {
+
+      font-weight:
+        bold;
+    }
+
+
+    .required {
+
+      color:
+        var(--danger);
+    }
+
+
+    input,
+    select,
+    textarea {
+
+      width:
+        100%;
+
+      border:
+        1px solid #8d99a6;
+
+      padding:
+        11px 12px;
+
+      background:
+        white;
+
+      color:
+        var(--text);
+    }
+
+
+    textarea {
+
+      min-height:
+        150px;
+
+      resize:
+        vertical;
+    }
+
+
+    input:disabled,
+    select:disabled,
+    textarea:disabled {
+
+      background:
+        #e9ecef;
+
+      color:
+        #6c757d;
+
+      cursor:
+        not-allowed;
+    }
+
+
+    .help {
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+    }
+
+
+    .actions {
+
+      display:
+        flex;
+
+      gap:
+        10px;
+
+      flex-wrap:
+        wrap;
+
+      margin-top:
+        20px;
+    }
+
+
+    .primary {
+
+      background:
+        var(--navy);
+
+      color:
+        white;
+
+      border:
+        2px solid var(--navy);
+
+      padding:
+        12px 20px;
+
+      cursor:
+        pointer;
+
+      font-weight:
+        bold;
+    }
+
+
+    .secondary {
+
+      background:
+        white;
+
+      color:
+        var(--navy);
+
+      border:
+        2px solid var(--navy);
+
+      padding:
+        12px 20px;
+
+      cursor:
+        pointer;
+
+      font-weight:
+        bold;
+    }
+
+
+    .warning-button {
+
+      margin-top:
+        8px;
+
+      background:
+        #fff8e1;
+
+      border:
+        1px solid #b58b00;
+
+      padding:
+        9px 12px;
+
+      cursor:
+        pointer;
+
+      font-weight:
+        bold;
+    }
+
+
+    .status {
+
+      margin-top:
+        18px;
+
+      padding:
+        14px;
+
+      border-radius:
+        6px;
+
+      border:
+        1px solid var(--border);
+    }
+
+
+    .status.success {
+
+      background:
+        #e8f5e9;
+
+      border-color:
+        #7cbf8b;
+
+      color:
+        #14532d;
+    }
+
+
+    .status.error {
+
+      background:
+        #fdecec;
+
+      border-color:
+        #d66;
+
+      color:
+        #7f1d1d;
+    }
+
+
+    .status.info {
+
+      background:
+        #eaf3fb;
+
+      border-color:
+        #7ba8cc;
+
+      color:
+        #12355b;
+    }
+
+
+    .search-row {
+
+      display:
+        flex;
+
+      gap:
+        8px;
+
+      margin-bottom:
+        15px;
+    }
+
+
+    .search-row input {
+
+      flex:
+        1;
+    }
+
+
+    .search-row button {
+
+      white-space:
+        nowrap;
+    }
+
+
+    .profile-list {
+
+      display:
+        flex;
+
+      flex-direction:
+        column;
+
+      gap:
+        10px;
+    }
+
+
+    .profile {
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        6px;
+
+      padding:
+        13px;
+
+      background:
+        #fff;
+    }
+
+
+    .profile-title {
+
+      font-weight:
+        bold;
+
+      color:
+        var(--navy);
+
+      margin-bottom:
+        4px;
+    }
+
+
+    .profile-id {
+
+      font-size:
+        12px;
+
+      color:
+        var(--muted);
+
+      word-break:
+        break-word;
+    }
+
+
+    .profile-meta {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
+      gap:
+        8px;
+
+      margin-top:
+        9px;
+
+      font-size:
+        13px;
+    }
+
+
+    .profile-meta div {
+
+      background:
+        #f5f7f9;
+
+      padding:
+        7px;
+
+      border-radius:
+        4px;
+    }
+
+
+    .empty {
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      padding:
+        20px;
+
+      border:
+        1px dashed var(--border);
+
+      border-radius:
+        6px;
+    }
+
+
+    .result-grid {
+
+      display:
+        grid;
+
+      grid-template-columns:
+        repeat(
+          2,
+          minmax(0, 1fr)
+        );
+
+      gap:
+        10px;
+
+      margin-top:
+        12px;
+    }
+
+
+    .result-item {
+
+      background:
+        white;
+
+      border:
+        1px solid var(--border);
+
+      border-radius:
+        5px;
+
+      padding:
+        10px;
+    }
+
+
+    .result-label {
+
+      font-size:
+        12px;
+
+      color:
+        var(--muted);
+
+      font-weight:
+        bold;
+
+      text-transform:
+        uppercase;
+    }
+
+
+    .result-value {
+
+      font-weight:
+        bold;
+
+      margin-top:
+        3px;
+    }
+
+
+    footer {
+
+      margin-top:
+        25px;
+
+      padding:
+        20px;
+
+      text-align:
+        center;
+
+      color:
+        var(--muted);
+
+      font-size:
+        13px;
+    }
+
+
+    @media (
+      max-width: 1000px
+    ) {
+
+      .grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .dashboard {
+
+        grid-template-columns:
+          repeat(
+            2,
+            minmax(0, 1fr)
+          );
+      }
+
+    }
+
+
+    @media (
+      max-width: 650px
+    ) {
+
+      .header-inner {
+
+        flex-direction:
+          column;
+      }
+
+
+      .header-controls {
+
+        justify-content:
+          flex-start;
+      }
+
+
+      .form-grid {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .field.full {
+
+        grid-column:
+          auto;
+      }
+
+
+      .dashboard {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .search-row {
+
+        flex-direction:
+          column;
+      }
+
+
+      .result-grid,
+      .profile-meta {
+
+        grid-template-columns:
+          1fr;
+      }
+
+
+      .container {
+
+        padding:
+          12px;
+      }
+
+    }
+
+  </style>
+
+</head>
+
+
+<body>
+
+
+<a
+  class="skip-link"
+  href="#main-content"
+>
+  Skip to main content
+</a>
+
+
+<header>
+
+  <div class="header-inner">
+
+
+    <div class="logo-area">
+
+      <img
+        class="ttb-logo"
+        id="ttbLogo"
+        src="https://www.ttb.gov/sites/default/files/images/ttb-logo.png"
+        alt="Alcohol and Tobacco Tax and Trade Bureau logo"
+        onerror="showLogoFallback()"
+      >
+
+
+      <div
+        class="logo-fallback"
+        id="logoFallback"
+        aria-hidden="true"
+      >
+        TTB
+      </div>
+
+    </div>
+
+
+    <div class="agency">
+
+      <div class="agency-line">
+        U.S. Department of the Treasury
+      </div>
+
+
+      <h1>
+        Alcohol and Tobacco Tax and Trade Bureau
+      </h1>
+
+
+      <div>
+        TTB Label Compliance Assistant
+      </div>
+
+
+      <div class="prototype-label">
+        PROTOTYPE — NOT AN OFFICIAL TTB SYSTEM
+      </div>
+
+    </div>
+
+
+    <div class="header-controls">
+
+      <button
+        type="button"
+        onclick="toggleContrast()"
+        aria-pressed="false"
+        id="contrastButton"
+      >
+        High Contrast
+      </button>
+
+
+      <button
+        type="button"
+        onclick="toggleLargeText()"
+        aria-pressed="false"
+        id="textButton"
+      >
+        Larger Text
+      </button>
+
+    </div>
+
+  </div>
+
+</header>
+
+
+<main
+  id="main-content"
+  class="container"
+>
+
+
+<section class="intro">
+
+  <h2>
+    Label Compliance Review Workspace
+  </h2>
+
+
+  <p>
+    Enter label application information, validate required
+    fields, create a Class/Type profile, and search
+    previously submitted profiles.
+  </p>
+
+
+  <p class="help">
+
+    Prototype workflow demonstrating automated validation
+    with human-in-the-loop review.
+
+  </p>
+
+</section>
+
+
+<!-- DASHBOARD -->
+
+<section
+  class="dashboard"
+  aria-label="Application statistics"
+>
+
+
+  <div class="stat-card">
+
+    <div class="stat-label">
+      Applications
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalApplications"
+    >
+      —
+    </div>
+
+  </div>
+
+
+  <div class="stat-card">
+
+    <div class="stat-label">
+      Class/Type Profiles
+    </div>
+
+    <div
+      class="stat-value"
+      id="totalProfiles"
+    >
+      —
+    </div>
+
+  </div>
+
+
+  <div class="stat-card">
+
+    <div class="stat-label">
+      Ready for Human Review
+    </div>
+
+    <div
+      class="stat-value"
+      id="readyForReview"
+    >
+      —
+    </div>
+
+  </div>
+
+
+  <div class="stat-card">
+
+    <div class="stat-label">
+      Potential Issues
+    </div>
+
+    <div
+      class="stat-value"
+      id="potentialIssues"
+    >
+      —
+    </div>
+
+  </div>
+
+</section>
+
+
+<div class="grid">
+
+
+<!-- LEFT SIDE -->
+
+<div>
+
+
+<!-- PRODUCT INFORMATION -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+
+      <span class="section-number">
+        1
+      </span>
+
+      Product Information
+
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="form-grid">
+
+
+      <div class="field">
+
+        <label for="beverageCategory">
+
+          Beverage Category
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <select
+          id="beverageCategory"
+          required
+          onchange="updateAlcoholRequirement()"
+        >
+
+          <option value="">
+            Select beverage category
+          </option>
+
+          <option value="Distilled Spirits">
+            Distilled Spirits
+          </option>
+
+          <option value="Wine">
+            Wine
+          </option>
+
+          <option value="Malt Beverage">
+            Malt Beverage
+          </option>
+
+          <option value="Beer">
+            Beer
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="brandName">
+
+          Brand Name
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="brandName"
+          type="text"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="classType">
+
+          Class/Type Designation
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="classType"
+          type="text"
+          required
+          list="profileClassTypes"
+        >
+
+
+        <datalist
+          id="profileClassTypes"
+        ></datalist>
+
+
+        <div class="help">
+
+          Profiles are created from Beverage Category
+          + Class/Type.
+
+        </div>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="netContents">
+
+          Net Contents
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="netContents"
+          type="text"
+          placeholder="Example: 750 mL"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="alcoholContent">
+
+          Alcohol Content
+
+          <span
+            class="required"
+            id="alcoholRequiredMark"
+            style="display:none"
+          >
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="alcoholContent"
+          type="text"
+          placeholder="Example: 40% Alc./Vol."
+        >
+
+
+        <div
+          class="help"
+          id="alcoholHelp"
+        >
+
+          Select a beverage category.
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- BOTTLER / PRODUCER -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+
+      <span class="section-number">
+        2
+      </span>
+
+      Bottler and Producer
+
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="form-grid">
+
+
+      <div class="field">
+
+        <label for="bottlerName">
+
+          Bottler Name
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="bottlerName"
+          type="text"
+          required
+        >
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="producerName">
+
+          Producer Name
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="producerName"
+          type="text"
+          required
+        >
+
+      </div>
+
+
+      <div class="field full">
+
+        <label for="bottlerAddress">
+
+          Bottler Address
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <textarea
+          id="bottlerAddress"
+          rows="3"
+          required
+        ></textarea>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label for="sameAddress">
+
+          Is the Producer Address the Same as the
+          Bottler Address?
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <select
+          id="sameAddress"
+          required
+          onchange="updateProducerAddress()"
+        >
+
+          <option value="">
+            Select Yes or No
+          </option>
+
+          <option value="Yes">
+            Yes
+          </option>
+
+          <option value="No">
+            No
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field full">
+
+        <label for="producerAddress">
+
+          Producer Address
+
+          <span
+            class="required"
+            id="producerAddressMark"
+          >
+            *
+          </span>
+
+        </label>
+
+
+        <textarea
+          id="producerAddress"
+          rows="3"
+          required
+        ></textarea>
+
+
+        <div class="help">
+
+          Disabled when Producer and Bottler use the
+          same address.
+
+        </div>
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- IMPORT -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+
+      <span class="section-number">
+        3
+      </span>
+
+      Import Information
+
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+    <div class="form-grid">
+
+
+      <div class="field">
+
+        <label for="imported">
+
+          Is this an Imported Product?
+
+          <span class="required">
+            *
+          </span>
+
+        </label>
+
+
+        <select
+          id="imported"
+          required
+          onchange="updateCountryOrigin()"
+        >
+
+          <option value="">
+            Select Yes or No
+          </option>
+
+          <option value="Yes">
+            Yes
+          </option>
+
+          <option value="No">
+            No
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <div class="field">
+
+        <label for="countryOfOrigin">
+
+          Country of Origin
+
+          <span
+            class="required"
+            id="countryMark"
+            style="display:none"
+          >
+            *
+          </span>
+
+        </label>
+
+
+        <input
+          id="countryOfOrigin"
+          type="text"
+          disabled
+        >
+
+      </div>
+
+
+    </div>
+
+  </div>
+
+</section>
+
+
+<!-- GOVERNMENT HEALTH WARNING -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+
+      <span class="section-number">
+        4
+      </span>
+
+      Government Health Warning
+
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+
+    <div class="field">
+
+
+      <label for="governmentWarning">
+
+        Government Health Warning Statement Provided
+
+        <span class="required">
+          *
+        </span>
+
+      </label>
+
+
+      <textarea
+        id="governmentWarning"
+        required
+        aria-required="true"
+        placeholder="Enter the Government Health Warning Statement exactly as it appears on the label."
+      ></textarea>
+
+
+      <div class="help">
+
+        A Government Health Warning Statement must be
+        provided for the alcoholic beverage application.
+
+        The prototype compares the provided statement
+        against the configured warning text and flags
+        differences for human review.
+
+      </div>
+
+
+      <button
+        type="button"
+        class="warning-button"
+        onclick="insertWarning()"
+      >
+
+        Insert Prototype Government Warning
+
+      </button>
+
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<!-- SUBMIT -->
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+
+      <span class="section-number">
+        5
+      </span>
+
+      Validate and Submit
+
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+
+    <div class="actions">
+
+      <button
+        type="button"
+        class="primary"
+        onclick="submitApplication()"
+        id="submitButton"
+      >
+
+        Validate &amp; Save Application
+
+      </button>
+
+
+      <button
+        type="button"
+        class="secondary"
+        onclick="clearForm()"
+      >
+
+        Clear Form
+
+      </button>
+
+    </div>
+
+
+    <div
+      id="formStatus"
+      class="status"
+      role="status"
+      aria-live="polite"
+      style="display:none"
+    ></div>
+
+
+    <div
+      id="result"
+      class="status"
+      style="display:none"
+    ></div>
+
+
+  </div>
+
+</section>
+
+
+</div>
+
+
+<!-- RIGHT SIDE -->
+
+<aside>
+
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h2>
+      Class/Type Profile Search
+    </h2>
+
+  </div>
+
+
+  <div class="card-body">
+
+
+    <p class="help">
+
+      Search existing profiles by beverage category,
+      class/type, profile ID, or review status.
+
+    </p>
+
+
+    <div class="search-row">
+
+
+      <input
+        id="profileSearch"
+        type="search"
+        placeholder="Search profiles..."
+        aria-label="Search Class/Type profiles"
+        onkeydown="if(event.key === 'Enter') searchProfiles()"
+      >
+
+
+      <button
+        type="button"
+        class="primary"
+        onclick="searchProfiles()"
+      >
+
+        Search
+
+      </button>
+
+
+    </div>
+
+
+    <div
+      id="profileResults"
+      class="profile-list"
+      aria-live="polite"
+    >
+
+      <div class="empty">
+
+        Loading profiles...
+
+      </div>
+
+    </div>
+
+
+  </div>
+
+</section>
+
+
+<section class="card">
+
+  <div class="card-header">
+
+    <h3>
+      Prototype System Information
+    </h3>
+
+  </div>
+
+
+  <div class="card-body">
+
+
+    <p>
+
+      <strong>
+        Backend:
+      </strong>
+
+      Google Apps Script
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        Database:
+      </strong>
+
+      Google Sheets
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        Profile Key:
+      </strong>
+
+      Beverage Category + Class/Type
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        Warning Field:
+      </strong>
+
+      Government Health Warning Statement Provided
+
+    </p>
+
+
+    <p>
+
+      <strong>
+        Review Model:
+      </strong>
+
+      Automated validation + human review
+
+    </p>
+
+
+    <p class="help">
+
+      This prototype does not replace official
+      TTB regulatory review.
+
+    </p>
+
+
+  </div>
+
+</section>
+
+
+</aside>
+
+
+</div>
+
+</main>
+
+
+<footer>
+
+  <strong>
+    TTB Label Compliance Assistant
+  </strong>
+
+  <br>
+
+  Prototype demonstration only —
+  not an official TTB system.
+
+  <br><br>
+
+  Human-in-the-loop compliance workflow prototype.
+
+</footer>
+
+
+<script>
+
+
+/*******************************************************
+ * INITIALIZATION
+ *******************************************************/
+
+document.addEventListener(
+  'DOMContentLoaded',
+  function() {
+
+    updateAlcoholRequirement();
+
+    updateProducerAddress();
+
+    updateCountryOrigin();
+
+    loadProfiles();
+
+    loadDashboard();
+
+  }
+);
+
+
+/*******************************************************
+ * ACCESSIBILITY
+ *******************************************************/
+
+function toggleContrast() {
+
+  document.body.classList.toggle(
+    'high-contrast'
+  );
+
+
+  const enabled =
+    document.body.classList.contains(
+      'high-contrast'
+    );
+
+
+  document.getElementById(
+    'contrastButton'
+  ).setAttribute(
+    'aria-pressed',
+    enabled
+  );
+}
+
+
+function toggleLargeText() {
+
+  document.body.classList.toggle(
+    'large-text'
+  );
+
+
+  const enabled =
+    document.body.classList.contains(
+      'large-text'
+    );
+
+
+  document.getElementById(
+    'textButton'
+  ).setAttribute(
+    'aria-pressed',
+    enabled
+  );
+}
+
+
+/*******************************************************
+ * LOGO FALLBACK
+ *******************************************************/
+
+function showLogoFallback() {
+
+  document.getElementById(
+    'ttbLogo'
+  ).style.display =
+    'none';
+
+
+  document.getElementById(
+    'logoFallback'
+  ).style.display =
+    'flex';
+}
+
+
+/*******************************************************
+ * ALCOHOL CONTENT
+ *******************************************************/
+
+function updateAlcoholRequirement() {
+
+  const category =
+    valueOf(
+      'beverageCategory'
+    );
+
+
+  const alcohol =
+    document.getElementById(
+      'alcoholContent'
+    );
+
+
+  const mark =
+    document.getElementById(
+      'alcoholRequiredMark'
+    );
+
+
+  const help =
+    document.getElementById(
+      'alcoholHelp'
+    );
+
+
+  if (
+    category ===
+    'Distilled Spirits'
+  ) {
+
+    alcohol.required =
+      true;
+
+
+    mark.style.display =
+      'inline';
+
+
+    help.textContent =
+      'Required for Distilled Spirits in this prototype.';
+
+  } else {
+
+    alcohol.required =
+      false;
+
+
+    mark.style.display =
+      'none';
+
+
+    if (
+      category === 'Beer' ||
+      category === 'Wine' ||
+      category === 'Malt Beverage'
+    ) {
+
+      help.textContent =
+        'Optional in this prototype for Beer, Wine, and Malt Beverage.';
+
+    } else {
+
+      help.textContent =
+        'Select a beverage category.';
+    }
+  }
+}
+
+
+/*******************************************************
+ * PRODUCER ADDRESS
+ *******************************************************/
+
+function updateProducerAddress() {
+
+  const sameAddress =
+    valueOf(
+      'sameAddress'
+    );
+
+
+  const producerAddress =
+    document.getElementById(
+      'producerAddress'
+    );
+
+
+  const mark =
+    document.getElementById(
+      'producerAddressMark'
+    );
+
+
+  if (
+    sameAddress ===
+    'Yes'
+  ) {
+
+    producerAddress.value =
+      '';
+
+
+    producerAddress.disabled =
+      true;
+
+
+    producerAddress.required =
+      false;
+
+
+    mark.style.display =
+      'none';
+
+  } else {
+
+    producerAddress.disabled =
+      false;
+
+
+    producerAddress.required =
+      true;
+
+
+    mark.style.display =
+      'inline';
+  }
+}
+
+
+/*******************************************************
+ * COUNTRY OF ORIGIN
+ *******************************************************/
+
+function updateCountryOrigin() {
+
+  const imported =
+    valueOf(
+      'imported'
+    );
+
+
+  const country =
+    document.getElementById(
+      'countryOfOrigin'
+    );
+
+
+  const mark =
+    document.getElementById(
+      'countryMark'
+    );
+
+
+  if (
+    imported ===
+    'Yes'
+  ) {
+
+    country.disabled =
+      false;
+
+
+    country.required =
+      true;
+
+
+    mark.style.display =
+      'inline';
+
+  } else {
+
+    country.value =
+      '';
+
+
+    country.disabled =
+      true;
+
+
+    country.required =
+      false;
+
+
+    mark.style.display =
+      'none';
+  }
+}
+
+
+/*******************************************************
+ * GOVERNMENT WARNING
+ *******************************************************/
+
+function insertWarning() {
+
+  showStatus(
+    'Loading prototype Government Health Warning...',
+    'info'
+  );
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(text) {
+
+        document.getElementById(
+          'governmentWarning'
+        ).value =
+          text;
+
+
+        showStatus(
+          'Government Health Warning Statement Provided field populated.',
+          'success'
+        );
+
+      }
+    )
+
+
+    .withFailureHandler(
+      function(error) {
+
+        showStatus(
+          error.message ||
+          'Unable to load Government Health Warning.',
+          'error'
+        );
+
+      }
+    )
+
+
+    .getWarningText();
+}
+
+
+/*******************************************************
+ * SUBMIT
+ *******************************************************/
+
+function submitApplication() {
+
+  if (
+    !validateClient()
+  ) {
+
+    return;
+  }
+
+
+  const button =
+    document.getElementById(
+      'submitButton'
+    );
+
+
+  button.disabled =
+    true;
+
+
+  button.textContent =
+    'Saving...';
+
+
+  showStatus(
+    'Validating and saving application...',
+    'info'
+  );
+
+
+  const category =
+    valueOf(
+      'beverageCategory'
+    );
+
+
+  const data = {
+
+    beverageCategory:
+      category,
+
+    brandName:
+      valueOf(
+        'brandName'
+      ),
+
+    classType:
+      valueOf(
+        'classType'
+      ),
+
+    alcoholContent:
+      valueOf(
+        'alcoholContent'
+      ),
+
+    alcoholRequired:
+      category ===
+      'Distilled Spirits',
+
+    netContents:
+      valueOf(
+        'netContents'
+      ),
+
+    bottlerName:
+      valueOf(
+        'bottlerName'
+      ),
+
+    bottlerAddress:
+      valueOf(
+        'bottlerAddress'
+      ),
+
+    producerName:
+      valueOf(
+        'producerName'
+      ),
+
+    producerAddress:
+      valueOf(
+        'producerAddress'
+      ),
+
+    sameAddress:
+      valueOf(
+        'sameAddress'
+      ) === 'Yes',
+
+    imported:
+      valueOf(
+        'imported'
+      ) === 'Yes',
+
+    countryOfOrigin:
+      valueOf(
+        'countryOfOrigin'
+      ),
+
+    governmentWarning:
+      valueOf(
+        'governmentWarning'
+      )
+
+  };
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(response) {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Validate & Save Application';
+
+
+        displayResult(
+          response
+        );
+
+
+        loadProfiles();
+
+        loadDashboard();
+
+      }
+    )
+
+
+    .withFailureHandler(
+      function(error) {
+
+        button.disabled =
+          false;
+
+
+        button.textContent =
+          'Validate & Save Application';
+
+
+        showStatus(
+          error.message ||
+          'Unable to save application.',
+          'error'
+        );
+
+      }
+    )
+
+
+    .saveApplication(
+      data
+    );
+}
+
+
+/*******************************************************
+ * CLIENT VALIDATION
+ *******************************************************/
+
+function validateClient() {
+
+  const category =
+    valueOf(
+      'beverageCategory'
+    );
+
+
+  const requiredFields = [
+
+    'beverageCategory',
+    'brandName',
+    'classType',
+    'netContents',
+    'bottlerName',
+    'bottlerAddress',
+    'producerName',
+    'sameAddress',
+    'imported',
+    'governmentWarning'
+
+  ];
+
+
+  for (
+    let i = 0;
+    i < requiredFields.length;
+    i++
+  ) {
+
+    const element =
+      document.getElementById(
+        requiredFields[i]
+      );
+
+
+    if (
+      !String(
+        element.value || ''
+      ).trim()
+    ) {
+
+      element.focus();
+
+
+      showStatus(
+        'Please complete all required fields.',
+        'error'
+      );
+
+
+      return false;
+    }
+  }
+
+
+  if (
+    category ===
+    'Distilled Spirits' &&
+    !valueOf(
+      'alcoholContent'
+    )
+  ) {
+
+    document.getElementById(
+      'alcoholContent'
+    ).focus();
+
+
+    showStatus(
+      'Alcohol Content is required for Distilled Spirits in this prototype.',
+      'error'
+    );
+
+
+    return false;
+  }
+
+
+  if (
+    valueOf(
+      'sameAddress'
+    ) === 'No' &&
+    !valueOf(
+      'producerAddress'
+    )
+  ) {
+
+    document.getElementById(
+      'producerAddress'
+    ).focus();
+
+
+    showStatus(
+      'Producer Address is required when addresses are different.',
+      'error'
+    );
+
+
+    return false;
+  }
+
+
+  if (
+    valueOf(
+      'imported'
+    ) === 'Yes' &&
+    !valueOf(
+      'countryOfOrigin'
+    )
+  ) {
+
+    document.getElementById(
+      'countryOfOrigin'
+    ).focus();
+
+
+    showStatus(
+      'Country of Origin is required for imported products.',
+      'error'
+    );
+
+
+    return false;
+  }
+
+
+  return true;
+}
+
+
+/*******************************************************
+ * DISPLAY RESULT
+ *******************************************************/
+
+function displayResult(
+  response
+) {
+
+  const result =
+    document.getElementById(
+      'result'
+    );
+
+
+  if (
+    !response ||
+    !response.success
+  ) {
+
+    showStatus(
+      'The application could not be saved.',
+      'error'
+    );
+
+    return;
+  }
+
+
+  const warningStatus =
+    response.warningMatch
+      ? 'Exact Match'
+      : 'Potential Issue';
+
+
+  const providedStatus =
+    response.warningProvided
+      ? 'Provided'
+      : 'Not Provided';
+
+
+  result.style.display =
+    'block';
+
+
+  result.className =
+    response.warningMatch
+      ? 'status success'
+      : 'status error';
+
+
+  result.innerHTML =
+
+    '<strong>Application Saved</strong>' +
+
+    '<div class="result-grid">' +
+
+      resultItem(
+        'Record ID',
+        response.recordId
+      ) +
+
+      resultItem(
+        'Review Status',
+        response.reviewStatus
+      ) +
+
+      resultItem(
+        'Class/Type Profile',
+        response.profileLabel
+      ) +
+
+      resultItem(
+        'Profile ID',
+        response.profileId
+      ) +
+
+      resultItem(
+        'Government Health Warning',
+        providedStatus
+      ) +
+
+      resultItem(
+        'Warning Validation',
+        warningStatus
+      ) +
+
+    '</div>';
+}
+
+
+/*******************************************************
+ * RESULT ITEM
+ *******************************************************/
+
+function resultItem(
+  label,
+  value
+) {
+
+  return (
+
+    '<div class="result-item">' +
+
+      '<div class="result-label">' +
+
+        escapeHtml(
+          label
+        ) +
+
+      '</div>' +
+
+      '<div class="result-value">' +
+
+        escapeHtml(
+          value || ''
+        ) +
+
+      '</div>' +
+
+    '</div>'
+
+  );
+}
+
+
+/*******************************************************
+ * SEARCH PROFILES
+ *******************************************************/
+
+function searchProfiles() {
+
+  const query =
+    valueOf(
+      'profileSearch'
+    );
+
+
+  const container =
+    document.getElementById(
+      'profileResults'
+    );
+
+
+  container.innerHTML =
+    '<div class="empty">Searching profiles...</div>';
+
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(results) {
+
+        renderProfiles(
+          results
+        );
+
+      }
+    )
+
+
+    .withFailureHandler(
+      function(error) {
+
+        container.innerHTML =
+
+          '<div class="empty">' +
+
+          escapeHtml(
+            error.message ||
+            'Profile search failed.'
+          ) +
+
+          '</div>';
+
+      }
+    )
+
+
+    .searchProfiles(
+      query
+    );
+}
+
+
+/*******************************************************
+ * LOAD PROFILES
+ *******************************************************/
+
+function loadProfiles() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(results) {
+
+        renderProfiles(
+          results
+        );
+
+
+        populateClassTypes(
+          results
+        );
+
+      }
+    )
+
+
+    .withFailureHandler(
+      function(error) {
+
+        document.getElementById(
+          'profileResults'
+        ).innerHTML =
+
+          '<div class="empty">' +
+
+          escapeHtml(
+            error.message ||
+            'Unable to load profiles.'
+          ) +
+
+          '</div>';
+
+      }
+    )
+
+
+    .getProfiles();
+}
+
+
+/*******************************************************
+ * RENDER PROFILES
+ *******************************************************/
+
+function renderProfiles(
+  results
+) {
+
+  const container =
+    document.getElementById(
+      'profileResults'
+    );
+
+
+  if (
+    !results ||
+    results.length === 0
+  ) {
+
+    container.innerHTML =
+
+      '<div class="empty">' +
+
+      'No matching profiles found.' +
+
+      '</div>';
+
+    return;
+  }
+
+
+  container.innerHTML =
+
+    results
+      .map(
+        function(profile) {
+
+          return (
+
+            '<article class="profile">' +
+
+              '<div class="profile-title">' +
+
+                escapeHtml(
+                  profile.beverageCategory
+                ) +
+
+                ' — ' +
+
+                escapeHtml(
+                  profile.classType
+                ) +
+
+              '</div>' +
+
+
+              '<div class="profile-id">' +
+
+                escapeHtml(
+                  profile.profileId
+                ) +
+
+              '</div>' +
+
+
+              '<div class="profile-meta">' +
+
+                '<div>' +
+
+                  '<strong>Submissions:</strong> ' +
+
+                  escapeHtml(
+                    profile.submissionCount
+                  ) +
+
+                '</div>' +
+
+
+                '<div>' +
+
+                  '<strong>Status:</strong> ' +
+
+                  escapeHtml(
+                    profile.lastReviewStatus
+                  ) +
+
+                '</div>' +
+
+
+                '<div>' +
+
+                  '<strong>First Seen:</strong> ' +
+
+                  escapeHtml(
+                    profile.firstSeen
+                  ) +
+
+                '</div>' +
+
+
+                '<div>' +
+
+                  '<strong>Last Seen:</strong> ' +
+
+                  escapeHtml(
+                    profile.lastSeen
+                  ) +
+
+                '</div>' +
+
+              '</div>' +
+
+            '</article>'
+
+          );
+
+        }
+      )
+      .join('');
+}
+
+
+/*******************************************************
+ * AUTOCOMPLETE
+ *******************************************************/
+
+function populateClassTypes(
+  profiles
+) {
+
+  const datalist =
+    document.getElementById(
+      'profileClassTypes'
+    );
+
+
+  if (!datalist) {
+    return;
+  }
+
+
+  const unique =
+    {};
+
+
+  profiles.forEach(
+    function(profile) {
+
+      if (
+        profile.classType
+      ) {
+
+        unique[
+          profile.classType
+        ] = true;
+      }
+
+    }
+  );
+
+
+  datalist.innerHTML =
+
+    Object.keys(
+      unique
+    )
+      .sort()
+      .map(
+        function(type) {
+
+          return (
+
+            '<option value="' +
+
+            escapeHtml(
+              type
+            ) +
+
+            '"></option>'
+
+          );
+
+        }
+      )
+      .join('');
+}
+
+
+/*******************************************************
+ * DASHBOARD
+ *******************************************************/
+
+function loadDashboard() {
+
+  google.script.run
+
+    .withSuccessHandler(
+      function(stats) {
+
+        document.getElementById(
+          'totalApplications'
+        ).textContent =
+          stats.totalApplications;
+
+
+        document.getElementById(
+          'totalProfiles'
+        ).textContent =
+          stats.totalProfiles;
+
+
+        document.getElementById(
+          'readyForReview'
+        ).textContent =
+          stats.readyForReview;
+
+
+        document.getElementById(
+          'potentialIssues'
+        ).textContent =
+          stats.potentialIssues;
+
+      }
+    )
+
+
+    .withFailureHandler(
+      function(error) {
+
+        console.error(
+          error
+        );
+
+      }
+    )
+
+
+    .getDashboardStats();
+}
+
+
+/*******************************************************
+ * CLEAR FORM
+ *******************************************************/
+
+function clearForm() {
+
+  const ids = [
+
+    'beverageCategory',
+    'brandName',
+    'classType',
+    'alcoholContent',
+    'netContents',
+    'bottlerName',
+    'bottlerAddress',
+    'producerName',
+    'producerAddress',
+    'sameAddress',
+    'imported',
+    'countryOfOrigin',
+    'governmentWarning'
+
+  ];
+
+
+  ids.forEach(
+    function(id) {
+
+      const element =
+        document.getElementById(
+          id
+        );
+
+
+      if (!element) {
+        return;
+      }
+
+
+      if (
+        element.tagName ===
+        'SELECT'
+      ) {
+
+        element.selectedIndex =
+          0;
+
+      } else {
+
+        element.value =
+          '';
+      }
+
+    }
+  );
+
+
+  document.getElementById(
+    'result'
+  ).style.display =
+    'none';
+
+
+  document.getElementById(
+    'formStatus'
+  ).style.display =
+    'none';
+
+
+  updateAlcoholRequirement();
+
+  updateProducerAddress();
+
+  updateCountryOrigin();
+
+
+  document.getElementById(
+    'beverageCategory'
+  ).focus();
+}
+
+
+/*******************************************************
+ * STATUS
+ *******************************************************/
+
+function showStatus(
+  message,
+  type
+) {
+
+  const status =
+    document.getElementById(
+      'formStatus'
+    );
+
+
+  status.textContent =
+    message;
+
+
+  status.className =
+    'status ' +
+    (
+      type ||
+      'info'
+    );
+
+
+  status.style.display =
+    'block';
+}
+
+
+/*******************************************************
+ * VALUE
+ *******************************************************/
+
+function valueOf(
+  id
+) {
+
+  const element =
+    document.getElementById(
+      id
+    );
+
+
+  return element
+    ? String(
+        element.value ||
+        ''
+      ).trim()
+    : '';
+}
+
+
+/*******************************************************
+ * HTML ESCAPE
+ *******************************************************/
+
+function escapeHtml(
+  value
+) {
+
+  return String(
+    value || ''
+  )
+    .replace(
+      /&/g,
+      '&amp;'
+    )
+    .replace(
+      /</g,
+      '&lt;'
+    )
+    .replace(
+      />/g,
+      '&gt;'
+    )
+    .replace(
+      /"/g,
+      '&quot;'
+    )
+    .replace(
+      /'/g,
+      '&#039;'
+    );
+}
+
+</script>
+
+</body>
+
+</html>
